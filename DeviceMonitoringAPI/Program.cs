@@ -8,6 +8,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Добавим CORS, чтобы не было "cross-origin"
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200") // URL of Angular app
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -18,7 +29,10 @@ if (app.Environment.IsDevelopment())
 }
 
 // закомментил для избежания HTTPS redirect проблем. (пока по заданию не нужно)
-// app.UseHttpsRedirection();
+app.UseHttpsRedirection();
+
+// Используем созданную CORS policy
+app.UseCors("AllowAngularApp");
 
 // Добавим поддержку routing контроллерам
 app.UseRouting();
