@@ -13,7 +13,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp", policy =>
     {
-        policy.WithOrigins("http://localhost:4200") // URL of Angular app
+        policy.WithOrigins("http://localhost:4200", "http://127.0.0.1:4200") // URL of Angular app
         .AllowAnyHeader()
         .AllowAnyMethod();
     });
@@ -28,14 +28,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// закомментил для избежания HTTPS redirect проблем. (пока по заданию не нужно)
 app.UseHttpsRedirection();
 
-// Используем созданную CORS policy
-app.UseCors("AllowAngularApp");
+// Стандартный порядок:
+// UseRouting -> UseCors -> UseAuthorization -> MapControllers/UseEndpoints
 
 // Добавим поддержку routing контроллерам
 app.UseRouting();
+
+// Используем созданную CORS policy
+// Важно, что должно быть после UseRouting() и до MapControllers()
+app.UseCors("AllowAngularApp");
+
 app.MapControllers();
 
 app.Run();
