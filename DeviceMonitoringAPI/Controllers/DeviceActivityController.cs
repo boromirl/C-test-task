@@ -51,4 +51,17 @@ public class DeviceActivityController : ControllerBase
     {
         return Ok(DataContext.DeviceActivities.Values);
     }
+
+    [HttpGet("{id}")]
+    public ActionResult<DeviceActivity> Get(Guid id)
+    {
+        // Если есть устройство с данным Id, возвращаем его
+        if (DataContext.DeviceActivities.TryGetValue(id, out var device))
+        {
+            return Ok(device);
+        }
+
+        // если нет, возвращаем страницу 404
+        return NotFound();
+    }
 }

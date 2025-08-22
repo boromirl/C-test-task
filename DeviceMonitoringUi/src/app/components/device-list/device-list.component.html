@@ -10,7 +10,7 @@
     </thead>
     <tbody>
         <!-- *ngFor это директива цикла Angular. Она проходит по массиву 'devices' -->
-         <tr *ngFor="let device of devices">
+         <tr *ngFor="let device of devices" [routerLink]="['/device', device.id]">
             <td>{{ device.id }}</td>
             <td>{{ device.name }}</td>
             <td>{{ device.startTime | date:'medium' }}</td>

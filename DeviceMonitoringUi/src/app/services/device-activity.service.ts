@@ -18,4 +18,8 @@ export class DeviceActivityService {
     // Отправка GET реквеста к API. Ожидает массив DeviceActivity в ответ
     return this.http.get<DeviceActivity[]>(this.apiUrl);
   }
+
+  getDeviceById(id: string): Observable<DeviceActivity> {
+    return this.http.get<DeviceActivity>(`${this.apiUrl}/${id}`);
+  }
 }
