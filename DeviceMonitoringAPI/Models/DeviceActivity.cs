@@ -1,11 +1,22 @@
 namespace DeviceMonitoringAPI.Models;
 
+using System.Text.Json.Serialization;
+
 public class DeviceActivity
 {
-    public Guid Id { get; set; }    // Guid - Globally Unique Identifier
+    [JsonPropertyName("_id")]
+    public string Id { get; set; } = string.Empty;
+
+    [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
+
+    [JsonPropertyName("startTime")]
     public DateTime StartTime { get; set; }
+
+    [JsonPropertyName("endTime")]
     public DateTime EndTime { get; set; }
+
+    [JsonPropertyName("version")]
     public string Version { get; set; } = string.Empty;
 }
 

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {DeviceActivity} from 'src/app/models/device-activity';
-import {DeviceActivityService} from 'src/app/services/device-activity.service';
+import {DeviceActivityService, DeviceSummary} from 'src/app/services/device-activity.service';
 
 @Component({
   selector: 'app-device-list',
@@ -9,14 +9,13 @@ import {DeviceActivityService} from 'src/app/services/device-activity.service';
 })
 export class DeviceListComponent implements OnInit {
   // Здесь хранится информация об устройствах, полученная от API
-  devices: DeviceActivity[] = [];
+  devices: DeviceSummary[] = [];
 
   // Inject наш сервис в компонент
   constructor(private deviceActivityService: DeviceActivityService) {}
 
   //
   ngOnInit(): void {
-    console.log('DeviceListComponent initialized');
     this.getDevices();
   }
 

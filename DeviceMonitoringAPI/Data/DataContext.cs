@@ -10,7 +10,6 @@ namespace DeviceMonitoringAPI.Data;
 
 public static class DataContext
 {
-    // In-memory словарь, который хранит DeviceActivities, используя Id в 
-    // качестве ключа
-    public static readonly ConcurrentDictionary<Guid, DeviceActivity> DeviceActivities = new();
+    // In-memory словарь, который хранит DeviceActivities
+    public static readonly ConcurrentDictionary<string, List<DeviceActivity>> DeviceActivities = new();
 }

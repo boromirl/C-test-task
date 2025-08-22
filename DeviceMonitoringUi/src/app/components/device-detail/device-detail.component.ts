@@ -9,20 +9,33 @@ import {DeviceActivityService} from 'src/app/services/device-activity.service';
   styleUrls: ['./device-detail.component.less']
 })
 export class DeviceDetailComponent implements OnInit {
-  device: DeviceActivity|null = null;
+  activities: DeviceActivity[] = [];
+  deviceId: string|null = null;
 
   constructor(
       private route: ActivatedRoute,
       private deviceActivityService: DeviceActivityService) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
+    this.deviceId = this.route.snapshot.paramMap.get('id');
     // null check для ID, чтобы избежать ошибок, если ID не найдено в URL
-    if (id) {
-      this.deviceActivityService.getDeviceById(id).subscribe(
-          (device: DeviceActivity) => {
-            this.device = device;
-          })
+    if (this.deviceId) {
+      this.getActivities();
     }
+  }
+
+  getActivities(): void {
+    if (!this.deviceId) return;
+
+    this.deviceActivityService.getActivitiesByDeviceId(this.deviceId)
+        .subscribe({
+          next: (data) => {
+            this.activities = data;
+            console.log('Activities received:', this.activities);
+          },
+          error: (error) => {
+            console.error('Error occurred', error);
+          }
+        })
   }
 }

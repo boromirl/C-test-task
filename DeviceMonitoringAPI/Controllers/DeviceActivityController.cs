@@ -29,36 +29,47 @@ public class DeviceActivityController : ControllerBase
             return BadRequest("Activity data is null.");
         }
 
-        // Если входящее activity не имеет Id, создаём новую activity.
-        if (activity.Id == Guid.Empty)
+        if (string.IsNullOrEmpty(activity.Id))
         {
-            activity.Id = Guid.NewGuid();
+            return BadRequest("Device ID is required.");
         }
 
-        // Пытаемся добавить activity в словарь
-        // Это так же может обновить существующуе значение, если Id уже существует
-        DataContext.DeviceActivities[activity.Id] = activity;
+        var deviceId = activity.Id;
+        // Если пока не записей об этом устройстве, создаем список под новое устройство
+        if (!DataContext.DeviceActivities.ContainsKey(deviceId))
+        {
+            DataContext.DeviceActivities[deviceId] = [];
+        }
 
-        _logger.LogInformation("Received and stored activity for device: {DeviceId}", activity.Id);
+        // Собственно, добавление новой записи в словарь
+        DataContext.DeviceActivities[deviceId].Add(activity);
+
+        _logger.LogInformation("Received activity for device: {DeviceId}", deviceId);
 
         return Ok(activity);    // возвращаем HTTP 200 OK и объект activity c Id
     }
 
-    // GET endpoint: api/DeviceActivity
-    // Этот endpoint возвращает все DeviceActivities без Id
-    [HttpGet]
-    public ActionResult<IEnumerable<DeviceActivity>> Get()
+    // 
+    // 
+    [HttpGet("devices")]
+    public ActionResult<IEnumerable<DeviceActivity>> GetDevices()
     {
-        return Ok(DataContext.DeviceActivities.Values);
+        // kvp - key value pair
+        var devices = DataContext.DeviceActivities.Select(kvp => new
+        {
+            DeviceId = kvp.Key
+        }).ToList();
+
+        return Ok(devices);
     }
 
-    [HttpGet("{id}")]
-    public ActionResult<DeviceActivity> Get(Guid id)
+    [HttpGet("{deviceId}")]
+    public ActionResult<IEnumerable<DeviceActivity>> GetActivitiesByDeviceId(string deviceId)
     {
-        // Если есть устройство с данным Id, возвращаем его
-        if (DataContext.DeviceActivities.TryGetValue(id, out var device))
+        // 
+        if (DataContext.DeviceActivities.TryGetValue(deviceId, out var activities))
         {
-            return Ok(device);
+            return Ok(activities);
         }
 
         // если нет, возвращаем страницу 404

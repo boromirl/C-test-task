@@ -1,8 +1,24 @@
-<div *ngIf="device">
-    <h2>Device Details</h2>
-    <p>ID: {{device.id}}</p>
-    <p>Name: {{device.name}}</p>
-    <p>Start Time: {{device.startTime | date}}</p>
-    <p>End Time: {{device.endTime | date}}</p>
-    <p>Version: {{device.version}}</p>
+<h2>Activities for Device {{ deviceId }}</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Version</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let activity of activities">
+            <td>{{ activity.name }}</td>
+            <td>{{ activity.startTime | date:'medium' }}</td>
+            <td>{{ activity.endTime | date:'medium' }}</td>
+            <td>{{ activity.version }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<div *ngIf="activities.length === 0">
+  <p>No activities found for this device.</p>
 </div>

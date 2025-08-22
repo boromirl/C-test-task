@@ -3,19 +3,11 @@
 <table>
     <thead>
         <th>Device ID</th> 
-        <th>User Name</th> 
-        <th>Session Start</th> 
-        <th>Session End</th> 
-        <th>App Version</th> 
     </thead>
     <tbody>
         <!-- *ngFor это директива цикла Angular. Она проходит по массиву 'devices' -->
-         <tr *ngFor="let device of devices" [routerLink]="['/device', device.id]">
-            <td>{{ device.id }}</td>
-            <td>{{ device.name }}</td>
-            <td>{{ device.startTime | date:'medium' }}</td>
-            <td>{{ device.endTime | date:'medium' }}</td>
-            <td>{{ device.version }}</td>
+         <tr *ngFor="let device of devices" [routerLink]="['/device', device.deviceId]">
+            <td>{{  device.deviceId }}</td>
          </tr>
     </tbody>
 </table>
