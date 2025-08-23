@@ -15,10 +15,11 @@ public class DeviceActivityController : ControllerBase
         _logger = logger;
     }
 
-    // POST endpoint: api/DeviceActivity
-    // Этот endpoint получает JSON объект и добавляем в наше in-memory хранилище
-    // [FromBody] атрибут говорит фреймворку десереализировать JSON объект из тела
-    // реквеста в DeviceActivity объект.
+    /// <summary>
+    /// POST реквест на добавление новой сессии
+    /// </summary>
+    /// <param name="activity">Данные о сессии</param>
+    /// <returns>Bad Request при неудачном добавлении, OK + добавленные данные при удачном добавлении</returns>
     [HttpPost]
     public IActionResult Post([FromBody] DeviceActivity activity)
     {
@@ -49,8 +50,10 @@ public class DeviceActivityController : ControllerBase
         return Ok(activity);    // возвращаем HTTP 200 OK и объект activity c Id
     }
 
-    // 
-    // 
+    /// <summary>
+    /// Получение списка устройств
+    /// </summary>
+    /// <returns>Список устройств</returns> 
     [HttpGet("devices")]
     public ActionResult<IEnumerable<DeviceActivity>> GetDevices()
     {
@@ -63,6 +66,11 @@ public class DeviceActivityController : ControllerBase
         return Ok(devices);
     }
 
+    /// <summary>
+    /// Получение списка сессий по ID устройства
+    /// </summary>
+    /// <param name="deviceId">ID устройства</param>
+    /// <returns>Список сессий устройства OK 200, если устройство существует. Not found, если устройства не существует</returns>
     [HttpGet("{deviceId}")]
     public ActionResult<IEnumerable<DeviceActivity>> GetActivitiesByDeviceId(string deviceId)
     {
@@ -76,6 +84,11 @@ public class DeviceActivityController : ControllerBase
         return NotFound();
     }
 
+    /// <summary>
+    /// Удаляет выбранную сессию
+    /// </summary>
+    /// <param name="activityId">ID удаляемой сессии</param>
+    /// <returns>No content при удачном удалении, not found, если сессии с таким id нет</returns>
     [HttpDelete("activity/{activityId:guid}")] // :guid constraints гарантирует, что URL парамент имеет валидный Guid
     public IActionResult DeleteActivity(Guid activityId)
     {

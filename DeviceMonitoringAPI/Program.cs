@@ -1,3 +1,6 @@
+using Microsoft.OpenApi.Models;
+using System.Reflection;    // XML comments
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Добавить поддержку MVC контроллеров
@@ -19,13 +22,31 @@ builder.Services.AddCors(options =>
     });
 });
 
+// Документация Swagger
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Device Monitoring API",
+        Version = "v1",
+        Description = "API for monitoring device activities"
+    });
+
+    var xmlFile =$"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+       c.SwaggerEndpoint("../swagger/v1/swagger.json", "Device Monitoring API v1");
+    });
 }
 
 app.UseHttpsRedirection();
