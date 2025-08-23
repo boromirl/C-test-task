@@ -1,5 +1,6 @@
 using Microsoft.OpenApi.Models;
 using System.Reflection;    // XML comments
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +38,15 @@ builder.Services.AddSwaggerGen(c =>
     c.IncludeXmlComments(xmlPath);
 });
 
+// Конфигурация Serilog
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+builder.Host.UseSerilog();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -49,7 +59,8 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseHttpsRedirection();
+// не используем https в тестовом задании
+// app.UseHttpsRedirection();
 
 // Стандартный порядок:
 // UseRouting -> UseCors -> UseAuthorization -> MapControllers/UseEndpoints
@@ -62,5 +73,16 @@ app.UseRouting();
 app.UseCors("AllowAngularApp");
 
 app.MapControllers();
+
+// Логгинг всех входящих реквестов
+app.Use(async (context, next) =>
+{
+    var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
+    logger.LogInformation("Handling request: {Method} {Path}", context.Request.Method, context.Request.Path);
+
+    await next();
+
+    logger.LogInformation("Finished handling request. Status: {StatusCode}", context.Response.StatusCode);
+});
 
 app.Run();

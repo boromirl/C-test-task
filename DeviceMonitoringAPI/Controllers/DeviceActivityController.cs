@@ -27,11 +27,13 @@ public class DeviceActivityController : ControllerBase
         // Если тело реквеста пустое или десереализация не удается
         if (activity == null)
         {
+            _logger.LogWarning("Received null activity data");
             return BadRequest("Activity data is null.");
         }
 
         if (string.IsNullOrEmpty(activity.DeviceId))
         {
+            _logger.LogWarning("Received activity without device ID");
             return BadRequest("Device ID is required.");
         }
 
@@ -81,6 +83,7 @@ public class DeviceActivityController : ControllerBase
         }
 
         // если нет, возвращаем страницу 404
+        _logger.LogWarning("Device with received deviceId not found.");
         return NotFound();
     }
 
@@ -113,6 +116,7 @@ public class DeviceActivityController : ControllerBase
             }
         }
         // Если activity не найдено, возвращаем 404
+        _logger.LogWarning($"DeleteActivity unsuccessfull. Activity with ID {activityId} not found.");
         return NotFound($"Activity with ID {activityId} not found.");
     }
 }
