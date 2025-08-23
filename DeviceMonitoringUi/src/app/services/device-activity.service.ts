@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';  // need to learn about this
+import {Observable, tap} from 'rxjs';  // need to learn about this
 
 // Наш интерфейс для модели
 import {DeviceActivity} from '../models/device-activity';
@@ -21,14 +21,31 @@ export class DeviceActivityService {
   getAllDevices(): Observable<DeviceSummary[]> {
     console.log('Attempting to fetch data from:', this.apiUrl);
     //
-    return this.http.get<DeviceSummary[]>(`${this.apiUrl}/devices`);
+    return this.http.get<DeviceSummary[]>(`${this.apiUrl}/devices`).pipe(tap({
+      next: (devices) => console.log(`Retrieved ${devices.length} devices`),
+      error: (error) => console.error('Error fetching devices:', error)
+    }));
   }
 
   getActivitiesByDeviceId(deviceId: string): Observable<DeviceActivity[]> {
-    return this.http.get<DeviceActivity[]>(`${this.apiUrl}/${deviceId}`);
+    console.log('Attempting to fetch list of activities of device: ', deviceId);
+
+    return this.http.get<DeviceActivity[]>(`${this.apiUrl}/${deviceId}`)
+        .pipe(tap({
+          next: (activities) =>
+              console.log(`Retrieved ${activities.length} activities`),
+          error: (error) => console.error('Error fetching activities:', error)
+        }));
   }
 
   deleteActivity(activityId: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/activity/${activityId}`);
+    console.log('Attempting to delete activity:', activityId);
+
+    return this.http.delete<void>(`${this.apiUrl}/activity/${activityId}`)
+        .pipe(tap({
+          next: () =>
+              console.log(`Successfully deleted activity $(activityId)`),
+          error: (error) => console.error('Error deleting activity', error)
+        }));
   }
 }
