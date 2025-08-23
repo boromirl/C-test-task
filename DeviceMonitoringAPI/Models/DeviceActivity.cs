@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 public class DeviceActivity
 {
     [JsonPropertyName("_id")]
-    public string Id { get; set; } = string.Empty;
+    public string DeviceId { get; set; } = string.Empty;
 
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
@@ -18,5 +18,7 @@ public class DeviceActivity
 
     [JsonPropertyName("version")]
     public string Version { get; set; } = string.Empty;
+
+    public Guid ActivityId { get; set; } = Guid.NewGuid();
 }
 
