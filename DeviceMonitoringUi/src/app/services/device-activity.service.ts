@@ -44,7 +44,7 @@ export class DeviceActivityService {
     return this.http.delete<void>(`${this.apiUrl}/activity/${activityId}`)
         .pipe(tap({
           next: () =>
-              console.log(`Successfully deleted activity $(activityId)`),
+              console.log(`Successfully deleted activity ${activityId}`),
           error: (error) => console.error('Error deleting activity', error)
         }));
   }
