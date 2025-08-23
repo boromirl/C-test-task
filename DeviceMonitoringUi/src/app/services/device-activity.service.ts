@@ -27,4 +27,8 @@ export class DeviceActivityService {
   getActivitiesByDeviceId(deviceId: string): Observable<DeviceActivity[]> {
     return this.http.get<DeviceActivity[]>(`${this.apiUrl}/${deviceId}`);
   }
+
+  deleteActivity(activityId: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/activity/${activityId}`);
+  }
 }

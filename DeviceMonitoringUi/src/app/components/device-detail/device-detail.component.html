@@ -7,6 +7,7 @@
             <th>Start Time</th>
             <th>End Time</th>
             <th>Version</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -15,6 +16,7 @@
             <td>{{ activity.startTime | date:'medium' }}</td>
             <td>{{ activity.endTime | date:'medium' }}</td>
             <td>{{ activity.version }}</td>
+            <td><button (click)="deleteActivity(activity.activityId)">Delete</button></td>
         </tr>
     </tbody>
 </table>

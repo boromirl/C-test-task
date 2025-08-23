@@ -38,4 +38,28 @@ export class DeviceDetailComponent implements OnInit {
           }
         })
   }
+
+  deleteActivity(activityId: string): void {
+    if (!confirm('Are you sure you want to delete this activity?')) {
+      return;  // при отмене удаления
+    }
+
+    this.deviceActivityService.deleteActivity(activityId).subscribe({
+      next: () => {
+        // Удаляем activity из массива в фронтэнде
+        this.activities =
+            this.activities.filter(a => a.activityId !== activityId);
+        console.log('Activity deleted successfully');
+
+        // Если не осталось activities
+        // if (this.activities.length == 0) {
+        //
+        // }
+      },
+      error: (error) => {
+        console.error('Error deleting activity:', error);
+        alert('Failed to delete activity. Please try again');
+      }
+    });
+  }
 }

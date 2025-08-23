@@ -1,5 +1,6 @@
 export interface DeviceActivity {
-  id: string;
+  deviceId: string;
+  activityId: string;
   name: string;
   startTime: Date;
   endTime: Date;
