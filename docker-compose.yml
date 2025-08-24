@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ./DeviceMonitoringAPI
+      dockerfile: Dockerfile
+    ports:
+      - "5040:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+  
+  angular:
+    build:
+      context: ./DeviceMonitoringUi
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+    depends_on:
+      - api

@@ -1,7 +1,8 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable, tap} from 'rxjs';  // need to learn about this
+import {Observable, tap} from 'rxjs';
 
+import {environment} from '../environments/environment';
 // Наш интерфейс для модели
 import {DeviceActivity} from '../models/device-activity';
 
@@ -12,7 +13,7 @@ export interface DeviceSummary {
 
 @Injectable({providedIn: 'root'})
 export class DeviceActivityService {
-  private apiUrl = 'http://172.31.252.124:5040/api/DeviceActivity'
+  private apiUrl = environment.apiUrl;
 
   // Inject HttpClient into the constructor
   constructor(private http: HttpClient) {}
