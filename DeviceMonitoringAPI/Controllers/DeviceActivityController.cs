@@ -23,6 +23,8 @@ public class DeviceActivityController : ControllerBase
     /// </summary>
     /// <param name="activity">Данные о сессии</param>
     /// <returns>Bad Request при неудачном добавлении, OK + добавленные данные при удачном добавлении</returns>
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpPost]
     public IActionResult Post([FromBody] DeviceActivity activity)
     {
@@ -60,6 +62,7 @@ public class DeviceActivityController : ControllerBase
     /// </summary>
     /// <returns>Список устройств</returns> 
     [HttpGet("devices")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult<IEnumerable<DeviceActivity>> GetDevices()
     {
         // kvp - key value pair
@@ -76,6 +79,8 @@ public class DeviceActivityController : ControllerBase
     /// </summary>
     /// <param name="deviceId">ID устройства</param>
     /// <returns>Список сессий устройства OK 200, если устройство существует. Not found, если устройства не существует</returns>
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)] 
     [HttpGet("{deviceId}")]
     public ActionResult<IEnumerable<DeviceActivity>> GetActivitiesByDeviceId(string deviceId)
     {
@@ -95,6 +100,8 @@ public class DeviceActivityController : ControllerBase
     /// </summary>
     /// <param name="activityId">ID удаляемой сессии</param>
     /// <returns>No content при удачном удалении, not found, если сессии с таким id нет</returns>
+    [ProducesResponseType(StatusCodes.Status204NoContent)] // 204 успешное удаление
+    [ProducesResponseType(StatusCodes.Status404NotFound)]  // 404 запись не найдена
     [HttpDelete("activity/{activityId:guid}")] // :guid constraints гарантирует, что URL парамент имеет валидный Guid
     public IActionResult DeleteActivity(Guid activityId)
     {
@@ -128,6 +135,8 @@ public class DeviceActivityController : ControllerBase
     /// Создание бэкапа данных в файле на сервере
     /// </summary>
     /// <returns>Ok при удачном создании, 500 при неудачном.</returns>
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpPost("backup")]
     public async Task<IActionResult> CreateBackup()
     {
@@ -152,6 +161,9 @@ public class DeviceActivityController : ControllerBase
     /// Восстановление из ближайшего бэкапа
     /// </summary>
     /// <returns>Ok при удачном восстановлении, NotFound если нет бэкап файлов, 500 при ошибке восстановления</returns>
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [HttpPost("restore")]
     public async Task<IActionResult> RestoreFromBackup()
     {
