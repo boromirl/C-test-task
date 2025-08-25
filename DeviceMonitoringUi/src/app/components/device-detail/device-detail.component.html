@@ -1,5 +1,5 @@
 <div class="device-detail-container">
-    <h2>Activities for Device <span class="device-id">{{ deviceId }}</span></h2>
+    <h2>Список активностей устройства <span class="device-id">{{ deviceId }}</span></h2>
 
     <table class="activity-table">
         <thead>
@@ -23,8 +23,8 @@
     </table>
 
     <div *ngIf="activities.length === 0" class="no-activities">
-        <p>No activities found for this device.</p>
+        <p>Список активностей данного устройства пуст.</p>
     </div>
 
-    <a class="back-button" routerLink="/">Back</a>
+    <a class="back-button" routerLink="/">Назад</a>
 </div>
