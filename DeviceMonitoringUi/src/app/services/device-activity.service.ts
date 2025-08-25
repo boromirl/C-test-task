@@ -49,4 +49,20 @@ export class DeviceActivityService {
           error: (error) => console.error('Error deleting activity', error)
         }));
   }
+
+  createBackup(): Observable<any> {
+    console.log('Creating backup');
+    return this.http.post(`${this.apiUrl}/backup`, {}).pipe(tap({
+      next: () => console.log('Backup created successfully'),
+      error: (error) => console.error('Error creating backup:', error)
+    }));
+  }
+
+  restoreFromBackup(): Observable<any> {
+    console.log('Restoring from backup');
+    return this.http.post(`${this.apiUrl}/restore`, {}).pipe(tap({
+      next: () => console.log('Data restored successfully'),
+      error: (error) => console.error('Error restoring from backup:', error)
+    }));
+  }
 }

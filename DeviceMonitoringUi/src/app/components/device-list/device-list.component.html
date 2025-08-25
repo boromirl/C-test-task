@@ -8,7 +8,7 @@
         <tbody>
             <!-- *ngFor это директива цикла Angular. Она проходит по массиву 'devices' -->
             <tr *ngFor="let device of devices" [routerLink]="['/device', device.deviceId]">
-                <td>{{  device.deviceId }}</td>
+                <td>{{ device.deviceId }}</td>
             </tr>
         </tbody>
     </table>
@@ -16,5 +16,10 @@
     <!-- Если устройств нет, показываем сообщение -->
     <div *ngIf="devices.length === 0" class="no-devices">
         <p>No devices found.</p>
+    </div>
+
+    <div class="backup-controls">
+        <button (click)="createBackup()" class="backup-btn">Create Backup</button>
+        <button (click)="restoreFromBackup()" class="restore-btn">Restore Latest Backup</button>
     </div>
 </div>

@@ -40,7 +40,7 @@ export class DeviceDetailComponent implements OnInit {
   }
 
   deleteActivity(activityId: string): void {
-    if (!confirm('Are you sure you want to delete this activity?')) {
+    if (!confirm('Удалить эти данные? (Уверены?)')) {
       return;  // при отмене удаления
     }
 
@@ -58,7 +58,7 @@ export class DeviceDetailComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error deleting activity:', error);
-        alert('Failed to delete activity. Please try again');
+        alert('Не удалось удалить данные. Пожалуйста, попробуйте ещё раз.');
       }
     });
   }

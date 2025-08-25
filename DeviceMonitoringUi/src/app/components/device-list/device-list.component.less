@@ -80,4 +80,37 @@
         color: lighten(@text-color, 40%);
         font-style: italic;
     }
+
+    .backup-controls{
+        display: flex;
+        gap: 10px;
+
+        .backup-btn, .restore-btn {
+            padding: 8px 16px;
+            border: none;
+            .rounded-corners;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+            margin-top: 20px;
+        }
+
+        .backup-btn {
+            background-color: #4285f4;
+            color: white;
+
+            &:hover {
+                background-color: darken(#4285f4, 10%);
+            }
+        }
+
+        .restore-btn {
+            background-color: #fbbc05;
+            color: #202124;
+
+            &:hover {
+                background-color: darken(#fbbc05, 10%); 
+            }
+        }
+    }
 }

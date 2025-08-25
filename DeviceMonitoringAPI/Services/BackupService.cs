@@ -9,7 +9,7 @@ namespace DeviceMonitoringAPI.Services;
 public class BackupData
 {
     public DateTime Timestamp { get; set; }
-    public ConcurrentDictionary<string, List<DeviceActivity>> DeviceActivities { get; set; }
+    public ConcurrentDictionary<string, List<DeviceActivity>> DeviceActivities { get; set; } = new();
 }
 
 
@@ -91,6 +91,11 @@ public class BackupService : IBackupService
             // Читаем и десериализуем бэкап
             var jsonData = await File.ReadAllTextAsync(backupFile);
             var backupData = JsonSerializer.Deserialize<BackupData>(jsonData);
+
+            if (backupData?.DeviceActivities == null)
+            {
+                throw new InvalidOperationException("Backup file is invalid or empty");
+            }
 
             // Заменяем текущие данные на бэкап
             DataContext.DeviceActivities.Clear();
