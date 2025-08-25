@@ -1,6 +1,7 @@
 using Microsoft.OpenApi.Models;
 using System.Reflection;    // XML comments
 using Serilog;
+using DeviceMonitoringAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,10 +34,12 @@ builder.Services.AddSwaggerGen(c =>
         Description = "API for monitoring device activities"
     });
 
-    var xmlFile =$"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     c.IncludeXmlComments(xmlPath);
 });
+
+builder.Services.AddScoped<IBackupService, BackupService>();
 
 // Конфигурация Serilog
 Log.Logger = new LoggerConfiguration()

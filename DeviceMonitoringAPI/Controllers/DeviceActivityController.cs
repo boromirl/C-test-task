@@ -1,6 +1,7 @@
 using DeviceMonitoringAPI.Data;
 using DeviceMonitoringAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using DeviceMonitoringAPI.Services;
 
 namespace DeviceMonitoringAPI.Controllers;
 
@@ -9,10 +10,12 @@ namespace DeviceMonitoringAPI.Controllers;
 public class DeviceActivityController : ControllerBase
 {
     private readonly ILogger<DeviceActivityController> _logger;
+    private readonly IBackupService _backupService;
 
-    public DeviceActivityController(ILogger<DeviceActivityController> logger)
+    public DeviceActivityController(ILogger<DeviceActivityController> logger, IBackupService backupService)
     {
         _logger = logger;
+        _backupService = backupService;
     }
 
     /// <summary>
@@ -97,7 +100,8 @@ public class DeviceActivityController : ControllerBase
     {
         // Поиск activity среди всех записей об устройствах
         // На данный момент реализовано самым простым способом
-        foreach(var device in DataContext.DeviceActivities){
+        foreach (var device in DataContext.DeviceActivities)
+        {
             var activityToDelete = device.Value.FirstOrDefault(a => a.ActivityId == activityId);
             if (activityToDelete != null)
             {
@@ -106,7 +110,7 @@ public class DeviceActivityController : ControllerBase
                 _logger.LogInformation("Deleted activity {ActivityId} for device {DeviceId}", activityId, device.Key);
 
                 // Если было удалено последнее activity у устройства, удаляем устройство из словаря
-                if(device.Value.Count == 0)
+                if (device.Value.Count == 0)
                 {
                     DataContext.DeviceActivities.TryRemove(device.Key, out _);
                     _logger.LogInformation("Removed empty device entry: {DeviceId}", device.Key);
@@ -118,5 +122,58 @@ public class DeviceActivityController : ControllerBase
         // Если activity не найдено, возвращаем 404
         _logger.LogWarning($"DeleteActivity unsuccessfull. Activity with ID {activityId} not found.");
         return NotFound($"Activity with ID {activityId} not found.");
+    }
+
+    /// <summary>
+    /// Создание бэкапа данных в файле на сервере
+    /// </summary>
+    /// <returns>Ok при удачном создании, 500 при неудачном.</returns>
+    [HttpPost("backup")]
+    public async Task<IActionResult> CreateBackup()
+    {
+        try
+        {
+            var backupPath = await _backupService.CreateBackup();
+            return Ok(new
+            {
+                Message = "Backup created successfully",
+                FilePath = backupPath,
+                Timestamp = DateTime.Now
+            });
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error creating backup");
+            return StatusCode(500, "Failed to create backup");
+        }
+    }
+
+    /// <summary>
+    /// Восстановление из ближайшего бэкапа
+    /// </summary>
+    /// <returns>Ok при удачном восстановлении, NotFound если нет бэкап файлов, 500 при ошибке восстановления</returns>
+    [HttpPost("restore")]
+    public async Task<IActionResult> RestoreFromBackup()
+    {
+        try
+        {
+            var backupPath = await _backupService.RestoreFromLatestBackup();
+            return Ok(new
+            {
+                Message = "Data restored successfully",
+                FilePath = backupPath,
+                Timestamp = DateTime.Now
+            });
+        }
+        catch (FileNotFoundException e)
+        {
+            _logger.LogWarning(e, "Backup file not found");
+            return NotFound(e.Message);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error restoring from backup");
+            return StatusCode(500, "Failed to restore from backup");
+        }
     }
 }
