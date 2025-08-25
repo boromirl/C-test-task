@@ -1,26 +1,30 @@
-<h2>Activities for Device {{ deviceId }}</h2>
+<div class="device-detail-container">
+    <h2>Activities for Device <span class="device-id">{{ deviceId }}</span></h2>
 
-<table>
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Version</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let activity of activities">
-            <td>{{ activity.name }}</td>
-            <td>{{ activity.startTime | date:'medium' }}</td>
-            <td>{{ activity.endTime | date:'medium' }}</td>
-            <td>{{ activity.version }}</td>
-            <td><button (click)="deleteActivity(activity.activityId)">Delete</button></td>
-        </tr>
-    </tbody>
-</table>
+    <table class="activity-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Version</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let activity of activities">
+                <td>{{ activity.name }}</td>
+                <td>{{ activity.startTime | date:'medium' }}</td>
+                <td>{{ activity.endTime | date:'medium' }}</td>
+                <td>{{ activity.version }}</td>
+                <td><button (click)="deleteActivity(activity.activityId)" class="delete-btn">Delete</button></td>
+            </tr>
+        </tbody>
+    </table>
 
-<div *ngIf="activities.length === 0">
-  <p>No activities found for this device.</p>
+    <div *ngIf="activities.length === 0" class="no-activities">
+        <p>No activities found for this device.</p>
+    </div>
+
+    <a class="back-button" routerLink="/">Back</a>
 </div>

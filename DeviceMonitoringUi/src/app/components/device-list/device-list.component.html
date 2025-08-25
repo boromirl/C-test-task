@@ -1,18 +1,20 @@
-<h2>Devices</h2>
+<div class="device-list-container">
+    <h2>Devices</h2>
 
-<table>
-    <thead>
-        <th>Device ID</th> 
-    </thead>
-    <tbody>
-        <!-- *ngFor это директива цикла Angular. Она проходит по массиву 'devices' -->
-         <tr *ngFor="let device of devices" [routerLink]="['/device', device.deviceId]">
-            <td>{{  device.deviceId }}</td>
-         </tr>
-    </tbody>
-</table>
+    <table class="device-table">
+        <thead>
+            <th>Device ID</th> 
+        </thead>
+        <tbody>
+            <!-- *ngFor это директива цикла Angular. Она проходит по массиву 'devices' -->
+            <tr *ngFor="let device of devices" [routerLink]="['/device', device.deviceId]">
+                <td>{{  device.deviceId }}</td>
+            </tr>
+        </tbody>
+    </table>
 
-<!-- Если устройств нет, показываем сообщение -->
-<div *ngIf="devices.length === 0">
-    <p>No devices found.</p>
+    <!-- Если устройств нет, показываем сообщение -->
+    <div *ngIf="devices.length === 0" class="no-devices">
+        <p>No devices found.</p>
+    </div>
 </div>

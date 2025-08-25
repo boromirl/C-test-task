@@ -1,0 +1,83 @@
+//
+@primary-color: #4285f4;
+@secondary-color: #34a853;
+@background-color: #f8f9fa;
+@border-color: #dadce0;
+@text-color: #202124;
+
+// Mixins
+.box-shadow(@x: 0, @y: 2px, @blur: 4px, @color: rgba(0,0,0,0.1)) {
+    box-shadow: @x @y @blur @color;
+    -webkit-box-shadow: @x @y @blur @color;
+    -moz-box-shadow: @x @y @blur @color;
+}
+
+.rounded-corners(@radius: 8px){
+    border-radius: @radius;
+    -webkit-border-radius: @radius;
+    -mox-border-radius: @radius;
+}
+
+// Компоненты
+.device-list-container {
+    padding: 20px;
+    background-color: @background-color;
+    min-height: 100vh;
+
+    h2{
+        color: @text-color;
+        margin-bottom: 20px;
+        font-weight: 500;
+    }
+
+    .device-table {
+        width: 100%;
+        border-collapse: collapse;
+        .box-shadow;
+        .rounded-corners;
+        background-color: white;
+
+        thead {
+            background-color: @primary-color;
+
+            tr th {
+                color: white;
+                padding: 12px 15 px;
+                text-align: left;
+                font-weight: 500;
+            }
+        }
+
+        tbody {
+            tr {
+                transition: background-color 0.2s ease;
+
+                &:hover {
+                    background-color: darken(@background-color, 10%);
+                    cursor: pointer;
+                }
+
+                td {
+                    padding: 12px 15px;
+                    border-bottom: 1px solid @border-color;
+                    color: @text-color;
+
+                    &:first-child {
+                        font-weight: 500;
+                    }
+                }
+
+                &:last-child td {
+                    border-bottom: none;
+                }
+            }
+        }
+    }
+
+    .no-devices {
+        text-align: center;
+        padding: 40px;
+        color: lighten(@text-color, 40%);
+        font-style: italic;
+    }
+}
