@@ -142,9 +142,15 @@ DeviceMonitoring/
 
 ![alt text](images/postman_result.png)
 
+## Схема
+
+* Вы можете посмотреть схему API при запущенном приложении по адресу http://localhost:5040/swagger.
+* Вы также можете сгенерировать json файл схемы с помощью скриптов generate-schema.ps1 и generate-schema.sh, которые находятся в папке DeviceMonitoringAPI.
+
+
 # Автор
 
-* С автором проектма можно связаться по email: burdiyanu.a@gmail.com.
+* С автором проекта можно связаться по email: burdiyanu.a@gmail.com.
 * Telegram: @burdiyanu
 
 # Github
