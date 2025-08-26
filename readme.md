@@ -106,6 +106,21 @@ DeviceMonitoring/
 - Backend API: http://localhost:5040
 - Swagger: http://localhost:5040/swagger
 
+## Пример запроса
+
+   ```json
+   POST /api/DeviceActivity
+   Content-Type: application/json
+
+   {
+      "_id": "f695ea23-8662-4a57-975a-f5afd26655db",
+      "name": "John Doe",
+      "startTime": "1980-01-02T00:00:00.000Z",
+      "endTime": "1980-01-04T00:00:00.000Z",
+      "version": "1.0.0.56"
+   }
+   ```
+
 # Скриншоты
 
 ## Главная страница: 
@@ -120,6 +135,17 @@ DeviceMonitoring/
 ![alt text](images/swagger_1.png)
 
 ![alt text](images/swagger_2.png)
+
+## Тест Post реквеста с помощью Postman
+
+![alt text](images/postman.png)
+
+![alt text](images/postman_result.png)
+
+# Автор
+
+* С автором проектма можно связаться по email: burdiyanu.a@gmail.com.
+* Telegram: @burdiyanu
 
 # Github
 
