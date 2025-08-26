@@ -3,7 +3,7 @@
 Full-stack веб-приложение для отслеживания статистики активности устройств.
 Состоит из backend на .NET 8 Web API и frontend на Angular 15.
 
-![dashboard screenshot](images/dashboard.png)
+![dashboard screenshot](screenshots/dashboard.png)
 
 ## Основные функции
 - Приём и хранение статистики активности устройств через API
@@ -124,23 +124,23 @@ DeviceMonitoring/
 # Скриншоты
 
 ## Главная страница: 
-![alt text](images/dashboard.png)
+![alt text](screenshots/dashboard.png)
 
 ## Список активностей устройства
 
-![alt text](images/device_detail.png)
+![alt text](screenshots/device_detail.png)
 
 ## Документация Swagger:
 
-![alt text](images/swagger_1.png)
+![alt text](screenshots/swagger_1.png)
 
-![alt text](images/swagger_2.png)
+![alt text](screenshots/swagger_2.png)
 
 ## Тест Post реквеста с помощью Postman
 
-![alt text](images/postman.png)
+![alt text](screenshots/postman.png)
 
-![alt text](images/postman_result.png)
+![alt text](screenshots/postman_result.png)
 
 ## Схема
 
