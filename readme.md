@@ -147,6 +147,16 @@ DeviceMonitoring/
 * Вы можете посмотреть схему API при запущенном приложении по адресу http://localhost:5040/swagger.
 * Вы также можете сгенерировать json файл схемы с помощью скриптов generate-schema.ps1 и generate-schema.sh, которые находятся в папке DeviceMonitoringAPI.
 
+## Логи
+
+* При работе API логи выводятся в консоль, а также сохраняются в папку: DeviceMonitoringAPI/logs/.
+* При работе Angular приложения, логи выводятся в консоль.
+
+## Бэкап
+
+* Бэкапы сохраняются в папку: DeviceMonitoringAPI/Backups в формате JSON.
+* Для создания бэкапов можно отправить POST реквест: http://localhost:5040/api/DeviceActivity/backup или использовать кнопку в приложении.
+* Для восстановления к последнему бэкапу можно использовать POST реквест: http://localhost:5040/api/DeviceActivity/restore или кнопку в приложении.
 
 # Автор
 
